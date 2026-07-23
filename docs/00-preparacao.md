@@ -51,3 +51,51 @@ Data da configuração:
 ---
 
 ## Cloudflare
+
+### Objetivo
+
+Proteger a conta Cloudflare, que será utilizada futuramente para gerenciamento de DNS, certificados SSL, proteção de domínio e publicação segura de serviços.
+
+### Motivação
+
+A Cloudflare será uma peça importante da infraestrutura. Um acesso não autorizado poderia permitir alterações de DNS, redirecionamentos indevidos ou exposição de serviços.
+
+A ativação de múltiplos fatores de autenticação reduz o risco de comprometimento da conta.
+
+### Tecnologias utilizadas
+
+- Cloudflare
+- Autenticação de dois fatores (2FA)
+- Chave de segurança física/digital
+- Aplicativo autenticador em dispositivo móvel
+
+### Passo a passo realizado
+
+- Acessado o painel da Cloudflare
+- Acessado as configurações de segurança da conta
+- Ativada autenticação de dois fatores por chave de segurança
+- Ativada autenticação de dois fatores em dispositivo móvel
+- Confirmadas as opções de proteção da conta
+
+### Como validar a configuração
+
+A configuração foi validada verificando no painel de segurança da Cloudflare que os seguintes métodos estão ativos:
+
+✅ Autenticação de dois fatores por chave de segurança  
+✅ Autenticação de dois fatores em dispositivo móvel
+
+Status:
+
+✅ Concluído
+
+Data da configuração:
+
+22/07/2026
+
+---
+
+# Lições aprendidas
+
+- Contas de infraestrutura devem ser protegidas antes de criar serviços públicos.
+- Utilizar mais de um método de autenticação aumenta a resiliência da conta.
+- Chaves de segurança oferecem uma camada adicional de proteção contra ataques baseados em roubo de senha ou phishing.
