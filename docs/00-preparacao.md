@@ -102,7 +102,7 @@ Data da configuração:
 
 ---
 
-## Gerenciador de senhas - Bitwarden
+# 2. Gerenciador de senhas - Bitwarden
 
 ### Objetivo
 
