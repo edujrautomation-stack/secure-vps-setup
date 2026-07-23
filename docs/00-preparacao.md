@@ -30,11 +30,11 @@ Por isso, a autenticação em dois fatores foi ativada antes de iniciar qualquer
 
 ### Passo a passo realizado
 
-- Acessado o painel da Hostinger
-- Acessado as configurações de segurança da conta
-- Ativada a autenticação em dois fatores
-- Vinculado o aplicativo autenticador
-- Confirmada a ativação do segundo fator
+- Acesso ao painel da Hostinger
+- Acesso as configurações de segurança da conta
+- Ativação da autenticação em dois fatores
+- Vinculo ao aplicativo autenticador
+- Confirmação da ativação do segundo fator
 
 ### Como validar a configuração
 
