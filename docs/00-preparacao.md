@@ -99,3 +99,59 @@ Data da configuração:
 - Contas de infraestrutura devem ser protegidas antes de criar serviços públicos.
 - Utilizar mais de um método de autenticação aumenta a resiliência da conta.
 - Chaves de segurança oferecem uma camada adicional de proteção contra ataques baseados em roubo de senha ou phishing.
+
+---
+
+## Gerenciador de senhas - Bitwarden
+
+### Objetivo
+
+Centralizar e proteger credenciais utilizadas durante a configuração e manutenção da infraestrutura.
+
+### Motivação
+
+Durante a construção do ambiente serão geradas diversas informações sensíveis, como:
+
+- Senhas administrativas
+- Chaves SSH
+- API Keys
+- Tokens de autenticação
+- Credenciais de serviços externos
+
+Guardar essas informações em locais inseguros, como arquivos de texto ou anotações, aumenta o risco de vazamento.
+
+O Bitwarden será utilizado como cofre seguro para armazenar essas credenciais.
+
+### Tecnologias utilizadas
+
+- Bitwarden
+- Cofre criptografado de senhas
+- Gerenciamento seguro de credenciais
+
+### Passo a passo realizado
+
+- Criada conta no Bitwarden
+- Configurado acesso ao cofre
+- Instalado o gerenciador de senhas
+- Realizado o primeiro acesso
+- Preparado o ambiente para armazenamento das futuras credenciais
+
+### Como validar a configuração
+
+A configuração foi validada realizando acesso ao cofre Bitwarden e confirmando que a conta está funcionando corretamente.
+
+Status:
+
+✅ Concluído
+
+Data da configuração:
+
+22/07/2026
+
+---
+
+# Lições aprendidas
+
+- Credenciais de infraestrutura devem ser armazenadas em um local seguro desde o início.
+- API Keys e senhas nunca devem ser salvas diretamente em arquivos públicos ou repositórios GitHub.
+- Um gerenciador de senhas reduz riscos e facilita a organização do ambiente.
