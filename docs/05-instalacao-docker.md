@@ -109,7 +109,7 @@ Boas práticas de administração de sistemas, evitando o acúmulo de arquivos t
 
 ## 5. Configuração de permissões de usuário (Não-Root)
 
-Inclusão do usuário não-root `edujr` no grupo do sistema `docker` para permitir o gerenciamento de containers sem uso do comando `sudo`.
+Inclusão do usuário não-root no grupo do sistema `docker` para permitir o gerenciamento de containers sem uso do comando `sudo`.
 
 ```bash
 sudo usermod -aG docker $USER
@@ -184,5 +184,4 @@ Durante a verificação inicial de pacotes desatualizados, o gerenciador de paco
 ---
 
 > **📌 REGISTRO FORMAL DE IMPLANTAÇÃO**  
-> **Servidor:** `srv1837565` | **Usuário Responsável:** `edujr`  
 > **Data e Horário da Implantação:** 24 de Julho de 2026 às 17:16:28 (BRT - Horário de Brasília)
