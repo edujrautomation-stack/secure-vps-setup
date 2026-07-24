@@ -129,3 +129,8 @@ ufw show added é uma etapa de verificação intermediária útil, pois permite 
 O UFW aplica automaticamente as regras tanto para IPv4 quanto para IPv6 ao liberar uma porta.
 Uma política de negação por padrão, com liberação explícita apenas do necessário, reduz drasticamente a superfície de ataque de um servidor exposto à internet.
 
+✅ Concluído
+
+Data da configuração:
+
+23/07/2026
