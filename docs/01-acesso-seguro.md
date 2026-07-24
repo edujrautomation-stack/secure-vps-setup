@@ -1,10 +1,10 @@
-01 - Acesso Seguro
+# 01 - Acesso Seguro
 
-Objetivo
+## Objetivo
 Configurar um acesso seguro à VPS eliminando práticas inseguras de autenticação e adotando boas práticas de administração de servidores Linux. Ao final desta etapa, a VPS estará preparada para ser administrada exclusivamente por um usuário não-root autenticado por chave SSH.
 
 
-Motivação
+## Motivação
 Uma VPS recém-criada normalmente permite login como root utilizando senha. Essa configuração representa um risco, pois:
 
 ataques automatizados tentam acessar continuamente o usuário root;
@@ -14,7 +14,7 @@ utilizar o usuário root para tarefas diárias aumenta o impacto de erros operac
 Para reduzir esses riscos foram implementadas medidas de endurecimento (hardening) do serviço SSH.
 
 
-Tecnologias utilizadas
+### Tecnologias utilizadas
 Ubuntu Server 24.04 LTS
 OpenSSH Server
 OpenSSH Client
@@ -23,8 +23,8 @@ sudo
 UFW (mencionado nos próximos passos, não faz parte desta etapa)
 
 
-Passo a passo
-1. Criação de usuário administrativo
+## Passo a passo
+###1. Criação de usuário administrativo
 Foi criado um usuário não-root para administração da VPS, com permissões administrativas concedidas através do grupo sudo.
 
 adduser edujr
@@ -34,7 +34,7 @@ usermod -aG sudo edujr
 Objetivo: evitar o uso diário do usuário root.
 
 
-2. Geração da chave SSH Ed25519
+###2. Geração da chave SSH Ed25519
 Foi gerado, na máquina local (não na VPS), um par de chaves SSH utilizando o algoritmo Ed25519.
 
 ssh-keygen -t ed25519 -C "email-de-referencia@exemplo.com"
@@ -56,7 +56,7 @@ Objetivo: substituir autenticação por senha por autenticação baseada em crip
 Nota técnica: o SSH exige permissões restritas nesses arquivos (700 para o diretório .ssh, 600 para authorized_keys) e recusa a autenticação por chave caso as permissões estejam mais abertas que o esperado, mesmo que o conteúdo esteja correto.
 
 
-3. Teste de autenticação
+### 3. Teste de autenticação
 Antes de qualquer alteração no serviço SSH, foi aberta uma segunda sessão, mantendo a sessão original ativa como medida de segurança.
 
 ssh edujr@IP_DA_VPS
@@ -66,7 +66,7 @@ O login utilizando a chave SSH foi testado com sucesso. Somente após confirmar 
 Objetivo: evitar perda de acesso ao servidor.
 
 
-4. Desabilitação do login do usuário root
+### 4. Desabilitação do login do usuário root
 Foi alterado o arquivo:
 
 /etc/ssh/sshd_config
@@ -78,7 +78,7 @@ PermitRootLogin no
 Objetivo: impedir autenticação direta utilizando o usuário root.
 
 
-5. Desabilitação de autenticação por senha
+### 5. Desabilitação de autenticação por senha
 Foi alterada a configuração:
 
 PasswordAuthentication no
@@ -86,7 +86,7 @@ PasswordAuthentication no
 Objetivo: permitir acesso somente através de chaves SSH.
 
 
-6. Limitação das tentativas de login
+### 6. Limitação das tentativas de login
 Foi configurado:
 
 MaxAuthTries 3
@@ -94,7 +94,7 @@ MaxAuthTries 3
 Objetivo: reduzir a superfície de ataque por tentativas de força bruta durante a autenticação.
 
 
-7. Reinicialização do serviço SSH
+### 7. Reinicialização do serviço SSH
 Após todas as alterações, o serviço SSH foi reiniciado:
 
 sudo systemctl restart ssh
@@ -104,10 +104,12 @@ Nota técnica: no Ubuntu, o serviço é registrado como ssh, não sshd — difer
 Em seguida foi realizado um novo teste de acesso utilizando a chave configurada, sem fechar a sessão anterior, garantindo um caminho de retorno em caso de falha na nova configuração.
 
 
-Problemas encontrados e soluções
+## Problemas encontrados e soluções
 Durante a execução desta etapa foram identificados os seguintes problemas:
 
-1. Diretivas do sshd_config comentadas por padrão. O arquivo de configuração padrão do Ubuntu mantém diretivas como PasswordAuthentication e MaxAuthTries comentadas (prefixadas com #), com os valores padrão do OpenSSH sendo aplicados implicitamente. Editar apenas o valor sem remover o # não surte efeito. Solução: localizar e descomentar cada diretiva antes de alterar o valor, ou aplicar a alteração via sed:
+### 1. Diretivas do sshd_config comentadas por padrão. 
+
+O arquivo de configuração padrão do Ubuntu mantém diretivas como PasswordAuthentication e MaxAuthTries comentadas (prefixadas com #), com os valores padrão do OpenSSH sendo aplicados implicitamente. Editar apenas o valor sem remover o # não surte efeito. Solução: localizar e descomentar cada diretiva antes de alterar o valor, ou aplicar a alteração via sed:
 
 sudo sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
 
@@ -115,12 +117,16 @@ sudo sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh
 
 sudo sed -i 's/^#\?MaxAuthTries.*/MaxAuthTries 3/' /etc/ssh/sshd_config
 
-2. Conflito de configuração durante atualização do pacote openssh-server. Ao executar apt upgrade, o gerenciador de pacotes identificou que o sshd_config havia sido modificado manualmente e perguntou se deveria manter a versão local ou substituir pela versão padrão do pacote. Foi selecionada a opção "keep the local version currently installed", preservando as configurações de hardening já aplicadas.
+### 2. Conflito de configuração durante atualização do pacote openssh-server.
 
-3. Nome incorreto do serviço ao reiniciar. A tentativa inicial de reiniciar o serviço via systemctl restart sshd falhou, pois no Ubuntu o serviço correto é ssh. Corrigido utilizando systemctl restart ssh.
+Ao executar apt upgrade, o gerenciador de pacotes identificou que o sshd_config havia sido modificado manualmente e perguntou se deveria manter a versão local ou substituir pela versão padrão do pacote. Foi selecionada a opção "keep the local version currently installed", preservando as configurações de hardening já aplicadas.
+
+### 3. Nome incorreto do serviço ao reiniciar. 
+
+A tentativa inicial de reiniciar o serviço via systemctl restart sshd falhou, pois no Ubuntu o serviço correto é ssh. Corrigido utilizando systemctl restart ssh.
 
 
-Como validar a configuração
+## Como validar a configuração
 As seguintes verificações foram realizadas:
 
 ✅ Login utilizando o usuário administrativo
@@ -129,7 +135,7 @@ As seguintes verificações foram realizadas:
 ✅ Login por senha desabilitado
 ✅ Serviço SSH reiniciado sem erros
 
-Comando utilizado para conferir as diretivas aplicadas:
+## Comando utilizado para conferir as diretivas aplicadas:
 
 sudo grep -E "^PermitRootLogin|^PasswordAuthentication|^MaxAuthTries" /etc/ssh/sshd_config
 
@@ -144,7 +150,7 @@ MaxAuthTries 3
 A tentativa de login com root resulta em solicitação de senha seguida de recusa permanente (Permission denied), independentemente da senha informada — comportamento esperado, já que o SSH não revela antecipadamente se um usuário está bloqueado.
 
 
-Lições aprendidas
+## Lições aprendidas
 O usuário root não deve ser utilizado para administração diária.
 Chaves SSH oferecem maior segurança do que autenticação por senha.
 Sempre deve ser realizado um teste de acesso, em uma sessão paralela, antes de desabilitar a autenticação por senha.
