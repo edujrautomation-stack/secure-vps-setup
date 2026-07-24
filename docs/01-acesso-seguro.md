@@ -153,3 +153,8 @@ Diretivas comentadas no sshd_config não têm efeito até serem descomentadas.
 Atualizações do sistema (apt upgrade) podem detectar configurações customizadas e solicitar confirmação antes de sobrescrevê-las.
 O princípio do menor privilégio é fundamental para a segurança de servidores Linux.
 
+✅ Concluído
+
+Data da configuração:
+
+23/07/2026
