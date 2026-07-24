@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Instalar e configurar o motor de conteinerização **Docker Engine** e o plugin **Docker Compose** em ambiente Linux Ubuntu Server na VPS Hostinger, estabelecendo as permissões de execução para o usuário não-root (`edujr`) e habilitando a inicialização automática do daemon junto com o sistema operacional.
+Instalar e configurar o motor de conteinerização **Docker Engine** e o plugin **Docker Compose** em ambiente Linux Ubuntu Server na VPS Hostinger, estabelecendo as permissões de execução para o usuário não-root e habilitando a inicialização automática do daemon junto com o sistema operacional.
 
 ---
 
@@ -10,7 +10,7 @@ Instalar e configurar o motor de conteinerização **Docker Engine** e o plugin 
 
 A arquitetura planejada para o servidor exige a execução de orquestradores de containers e rotinas de automação (como Easypanel, n8n, Evolution API e bancos de dados isolados).
 
-O uso do Docker permite isolar cada aplicação em seu próprio ambiente executável, evitando conflitos de dependências do sistema operacional e facilitando a implantação rápida (*vibecoding*) com máxima segurança. Além disso, a configuração adequada do grupo de usuários evita a necessidade de utilizar o superusuário (`root`) para gerenciar containers no dia a dia.
+O uso do Docker permite isolar cada aplicação em seu próprio ambiente executável, evitando conflitos de dependências do sistema operacional e facilitando a implantação rápida com máxima segurança. Além disso, a configuração adequada do grupo de usuários evita a necessidade de utilizar o superusuário (`root`) para gerenciar containers no dia a dia.
 
 ---
 
