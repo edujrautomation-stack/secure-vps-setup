@@ -32,7 +32,7 @@ Além de servir como material de estudo, este projeto funciona como um portfóli
 - [x] Ativar 2FA na Hostinger
 - [x] Ativar 2FA na Cloudflare
 - [x] Gerenciador de senhas na Bitwarden
-- [ ] Configurar acesso seguro via SSH
+- [x] Configurar acesso seguro via SSH
 - [ ] Configurar Firewall (UFW)
 - [ ] Instalar Fail2Ban
 - [ ] Configurar atualizações automáticas
