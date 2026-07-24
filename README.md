@@ -33,7 +33,7 @@ Além de servir como material de estudo, este projeto funciona como um portfóli
 - [x] Ativar 2FA na Cloudflare
 - [x] Gerenciador de senhas na Bitwarden
 - [x] Configurar acesso seguro via SSH
-- [ ] Configurar Firewall (UFW)
+- [x] Configurar Firewall (UFW)
 - [ ] Instalar Fail2Ban
 - [ ] Configurar atualizações automáticas
 - [ ] Instalar Docker
