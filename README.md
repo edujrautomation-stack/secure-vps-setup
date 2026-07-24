@@ -34,8 +34,8 @@ Além de servir como material de estudo, este projeto funciona como um portfóli
 - [x] Gerenciador de senhas na Bitwarden
 - [x] Configurar acesso seguro via SSH
 - [x] Configurar Firewall (UFW)
-- [ ] Instalar Fail2Ban
-- [ ] Configurar atualizações automáticas
+- [x] Instalar Fail2Ban
+- [x] Configurar atualizações automáticas
 - [ ] Instalar Docker
 - [ ] Instalar EasyPanel
 - [ ] Configurar Cloudflare
