@@ -24,7 +24,7 @@ UFW (mencionado nos próximos passos, não faz parte desta etapa)
 
 
 ## Passo a passo
-###1. Criação de usuário administrativo
+### 1. Criação de usuário administrativo
 Foi criado um usuário não-root para administração da VPS, com permissões administrativas concedidas através do grupo sudo.
 
 adduser edujr
@@ -34,7 +34,7 @@ usermod -aG sudo edujr
 Objetivo: evitar o uso diário do usuário root.
 
 
-###2. Geração da chave SSH Ed25519
+### 2. Geração da chave SSH Ed25519
 Foi gerado, na máquina local (não na VPS), um par de chaves SSH utilizando o algoritmo Ed25519.
 
 ssh-keygen -t ed25519 -C "email-de-referencia@exemplo.com"
