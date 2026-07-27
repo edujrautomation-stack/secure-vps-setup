@@ -36,12 +36,12 @@ Além de servir como material de estudo, este projeto funciona como um portfóli
 - [x] Configurar Firewall (UFW)
 - [x] Instalar Fail2Ban
 - [x] Configurar atualizações automáticas
-- [ ] Instalar Docker
-- [ ] Instalar EasyPanel
-- [ ] Configurar Cloudflare
-- [ ] Configurar HTTPS
-- [ ] Instalar PostgreSQL
-- [ ] Instalar Redis
+- [x] Instalar Docker
+- [x] Instalar EasyPanel
+- [x] Configurar Cloudflare
+- [x] Configurar HTTPS
+- [x] Instalar PostgreSQL
+- [x] Instalar Redis
 - [ ] Instalar n8n
 - [ ] Instalar Evolution API
 - [ ] Configurar backups
