@@ -1,5 +1,7 @@
 # 🛡️ Secure VPS Blueprint
 
+![Secure VPS Blueprint Architecture](./assets/secure-vps-blueprint-architecture.png)
+
 Documentação da construção de uma VPS segura para hospedar APIs, automações e aplicações de IA, seguindo boas práticas de DevSecOps e cibersegurança.
 
 ---
