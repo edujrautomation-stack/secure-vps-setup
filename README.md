@@ -42,10 +42,11 @@ Além de servir como material de estudo, este projeto funciona como um portfóli
 - [x] Configurar HTTPS
 - [x] Instalar PostgreSQL
 - [x] Instalar Redis
-- [ ] Instalar n8n
-- [ ] Instalar Evolution API
-- [ ] Configurar backups
-- [ ] Configurar monitoramento
+- [x] Instalar n8n
+- [x] Instalar Evolution API
+- [x] Configurar backups
+- [x] Cláusulas Contratuais — Infraestrutura e Dados
+- [x] Rotina de manutenção contínua
 
 ---
 
@@ -60,6 +61,3 @@ Cada etapa deste projeto será documentada contendo:
 - Como validar a configuração
 - Lições aprendidas
 
----
-
-> 🚧 Projeto em desenvolvimento. A documentação será atualizada conforme cada etapa for concluída.
