@@ -14,6 +14,12 @@ Além de servir como material de estudo, este projeto funciona como um portfóli
 
 ---
 
+## 🏗️ Arquitetura do Projeto
+
+Esta arquitetura foi construída com foco em segurança, isolamento, manutenção e preparação para hospedar APIs, automações e aplicações de inteligência artificial.
+
+A infraestrutura utiliza uma VPS Ubuntu Server 24.04 LTS como base, com Docker para isolamento dos serviços, Cloudflare para camada de rede e segurança, e serviços como n8n e Evolution API para automações.
+
 # 🏗️ Stack
 
 - Ubuntu Server 24.04 LTS
