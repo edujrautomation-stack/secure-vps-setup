@@ -85,3 +85,8 @@ Cada etapa deste projeto será documentada contendo:
 - Como validar a configuração
 - Lições aprendidas
 
+## 🧠 Considerações finais
+
+Leia mais sobre o processo de construção:
+
+[SOBRE-O-PROJETO.md](./SOBRE-O-PROJETO.md)
