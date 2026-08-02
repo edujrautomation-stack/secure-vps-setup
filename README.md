@@ -25,7 +25,29 @@ Além de servir como material de estudo, este projeto funciona como um portfóli
 - Redis
 - n8n
 - Evolution API
-- FastAPI (em breve)
+
+## 📚 Documentação
+
+O projeto foi dividido em 14 etapas:
+
+1. Preparação da VPS
+2. Acesso seguro SSH
+3. Firewall UFW
+4. Fail2Ban
+5. Atualizações automáticas
+6. Docker e EasyPanel
+7. Cloudflare e domínio
+8. HTTPS automático
+9. Isolamento por cliente
+10. Bancos de dados
+11. n8n e Evolution API
+12. Backup
+13. Camada contratual
+14. Manutenção contínua
+
+A documentação completa está disponível na pasta:
+
+[/docs](./docs)
 
 ---
 
