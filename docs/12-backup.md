@@ -226,3 +226,114 @@ Além do problema de configuração do rclone sob `sudo` (detalhado acima), houv
 ---
 
 *Documentação registrada em 02/08/2026.*
+
+
+# 12b - Incidente: Token OAuth do rclone expirado
+
+## Objetivo
+
+Documentar a descoberta e correção de uma falha silenciosa no backup diário (rclone → Google Drive), na qual o processo estava falhando havia 7 dias sem gerar nenhum alerta visível — evidenciando que um cron job configurado corretamente pode ainda assim falhar de forma invisível se ninguém monitora seus logs.
+
+---
+
+## Motivação
+
+A rotina de backup documentada na etapa 12 foi implementada e validada com sucesso em 02/08/2026, incluindo teste de restauração completo. No entanto, "configurado e testado uma vez" não é o mesmo que "funcionando continuamente" — tokens OAuth expiram, e um script que falha silenciosamente (sem alertar ninguém) pode ficar quebrado por dias sem que isso seja percebido.
+
+---
+
+## Como o problema foi descoberto
+
+Durante uma sessão de hardening adicional da VPS (configuração de swap, preparação para instalar o Claude Code), foi feita uma auditoria de rotina do estado do backup:
+
+```bash
+crontab -l          # nenhuma tarefa no crontab do usuário edujr
+sudo crontab -l      # confirma que o backup está agendado no crontab do root
+sudo tail -20 /var/log/nexflow-backup.log
+```
+
+O log revelou que, desde **17/08/2026**, toda execução diária às 3h da manhã falhava com o mesmo erro:
+
+```
+Failed to create file system for "gdrive:nexflow-dx-backups/dudu": couldn't find root
+directory ID: ... couldn't fetch token - maybe it has expired? - refresh with
+"rclone config reconnect gdrive:": oauth2: "invalid_grant" "Token has been expired or revoked."
+```
+
+Ou seja: **7 dias sem backup novo enviado ao Google Drive**, sem nenhum alerta — o script continuava rodando e gravando erro no log, mas nada notificava isso de forma ativa.
+
+---
+
+## Causa raiz (dupla)
+
+1. **Token OAuth expirado**: o token de acesso gerado durante a configuração original (02/08) expirou/foi revogado pelo Google, exigindo reautorização manual (`invalid_grant`).
+
+2. **Permissões incorretas no arquivo de configuração** (descoberta ao tentar corrigir o problema 1):
+   ```bash
+   ls -la /home/edujr/.config/rclone/
+   # -rw------- 1 root  edujr  660 Aug  9 03:00 rclone.conf
+   ```
+   O arquivo `rclone.conf`, originalmente criado pelo usuário `edujr`, teve seu dono alterado para `root` em algum momento (provavelmente por interação de uma execução anterior do script rodando via `sudo`), e ficou com permissão `600` (só o dono pode ler). Isso impedia inclusive a tentativa de reconexão manual (`rclone config reconnect gdrive:` retornava `permission denied`).
+
+---
+
+## Correção aplicada
+
+### 1. Corrigir posse do arquivo de configuração
+
+```bash
+sudo chown edujr:edujr /home/edujr/.config/rclone/rclone.conf
+```
+
+Devolve o arquivo ao usuário `edujr`, permitindo leitura/escrita normal novamente.
+
+### 2. Reautorizar o token OAuth
+
+```bash
+rclone config reconnect gdrive:
+```
+
+Fluxo seguido (máquina headless, sem navegador):
+- `Already have a token - refresh?` → **y**
+- `Use auto config?` → **n** (é máquina remota/headless)
+- Comando `rclone authorize "drive" "<config>"` executado **na máquina local** (PC com navegador, mesma versão do rclone: v1.75.0)
+- Login e autorização feitos via navegador no PC
+- Token gerado no PC, colado de volta no prompt `config_token>` da VPS
+- `Configure this as a Shared Drive (Team Drive)?` → **n** (conta pessoal, sem Shared Drives)
+
+### 3. Validar a reconexão
+
+```bash
+rclone lsd gdrive:
+```
+Retornou a pasta `nexflow-dx-backups` normalmente, confirmando autenticação restaurada.
+
+### 4. Rodar o backup manualmente para confirmar o fluxo completo
+
+```bash
+sudo /opt/backup-scripts/backup-nexflow.sh
+```
+
+Executado com sucesso para os 3 clientes (`dudu`, `nexflow`, `ultragas`), sem erros de token, encerrando com `Backup concluído em Sun Aug 23 18:46:09 UTC 2026`.
+
+---
+
+## Como validar a configuração
+
+- ✅ `sudo crontab -l` confirma agendamento diário às 3h ainda ativo
+- ✅ `rclone lsd gdrive:` confirma autenticação válida
+- ✅ Execução manual do script concluída sem erros para todos os clientes
+- ✅ Próxima execução automática (3h) deve ser conferida no log em `/var/log/nexflow-backup.log` para confirmar que o ciclo automático também funciona, não só a execução manual
+
+---
+
+## Lições aprendidas
+
+- **Um cron job "configurado e validado uma vez" não é o mesmo que "monitorado continuamente".** O backup original passou por teste de restauração completo (etapa 12) e ainda assim ficou quebrado por 7 dias sem que ninguém soubesse, porque a falha não gerava nenhum alerta ativo — só um log que precisa ser lido manualmente.
+- **Tokens OAuth expiram e precisam de plano de renovação.** Uma integração baseada em OAuth (Google Drive, neste caso) não é "configure uma vez e esqueça" — o token de acesso tem vida útil e pode ser revogado, exigindo reautorização periódica.
+- **Processos rodando via `sudo`/root podem alterar posse de arquivos de usuários comuns sem intenção explícita.** Vale conferir periodicamente `ls -la` em arquivos de configuração sensíveis usados por scripts que alternam entre execução como usuário comum e como root.
+- **Ação recomendada de acompanhamento:** considerar adicionar uma notificação ativa em caso de falha do backup (ex: envio de mensagem via webhook/Telegram/e-mail quando o script encontrar um erro), em vez de depender de auditoria manual do log para descobrir falhas.
+
+---
+
+*Documentação registrada em 23/08/2026.*
